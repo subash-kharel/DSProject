@@ -1,0 +1,51 @@
+version: '3'
+services:
+  catalog:
+    image: catalog:0.0.1-snapshot
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database-catalog  # Ensure the webapp service starts after the database
+
+  database-catalog:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: catalog-db  # Replace with your desired database name
+      POSTGRES_USER: postgres  # Replace with your desired database user
+      POSTGRES_PASSWORD: postgres  # Replace with your desired database password
+    ports:
+      - "5432:5432"  # Map host port 5432 to container port 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+#    networks:
+#      - backend
+
+  order:
+    image: order:0.0.1-snapshot
+    ports:
+      - "8081:8081"
+    depends_on:
+      - database-order  # Ensure the webapp service starts after the database
+#    networks:
+#      - backend
+
+  database-order:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: order-db  # Replace with your desired database name
+      POSTGRES_USER: postgres  # Replace with your desired database user
+      POSTGRES_PASSWORD: postgres  # Replace with your desired database password
+    ports:
+      - "5433:5432"  # Map host port 5432 to container port 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+#networks:
+#  backend:
+#    driver: bridge
+

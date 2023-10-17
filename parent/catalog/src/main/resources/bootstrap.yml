@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: catalog
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://configserver:8888
+      enabled: true
+  config:
+    import:
+      configserver:

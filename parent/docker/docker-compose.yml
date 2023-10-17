@@ -2,10 +2,17 @@ version: '3'
 services:
   catalog:
     image: catalog:0.0.1-snapshot
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8888"
+      CONFIGSERVER_PORT: "8888"
     ports:
       - "8080:8080"
     depends_on:
-      - database-catalog  # Ensure the webapp service starts after the database
+      database-catalog:  # Ensure the webapp service starts after the database
+        condition: service_healthy
+      configserver:
+        condition: service_started
 
   database-catalog:
     image: postgres:latest
@@ -25,10 +32,15 @@ services:
 
   order:
     image: order:0.0.1-snapshot
+    environment:
+      PROFILE: "test"
     ports:
       - "8081:8081"
     depends_on:
-      - database-order  # Ensure the webapp service starts after the database
+      database-order:  # Ensure the webapp service starts after the database
+        condition: service_healthy
+      configserver:
+        condition: service_started
 #    networks:
 #      - backend
 
@@ -48,4 +60,15 @@ services:
 #networks:
 #  backend:
 #    driver: bridge
+  configserver:
+    image: configserver:0.0.1-snapshot
+    ports:
+      - "8888:8888"
+    environment:
+      SERVER_PORT: 8888
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://configserver:8888/actuator/health" ]
+#      interval: 10s
+#      timeout: 10s
+#      retries: 5
 

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active:
+    - native, git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/subash-kharel/cloud-config.git
+          search-paths: ecom-configs
+          default-label: master

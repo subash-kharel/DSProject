@@ -35,6 +35,7 @@
 	<modules>
 		<module>catalog</module>
 		<module>order</module>
+		<module>configserver</module>
 	</modules>
 
 	<build>

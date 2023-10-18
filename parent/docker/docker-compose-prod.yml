@@ -65,8 +65,8 @@ services:
     networks:
       - backend
 
-  cart_item:
-    image: cart_item:0.0.1-snapshot
+  cart-item:
+    image: cart-item:0.0.1-snapshot
     environment:
       SPRING_PROFILES_ACTIVE: "prod"
 
@@ -76,16 +76,16 @@ services:
     ports:
       - "8082:8082"
     depends_on:
-      database-cart_item:  # Ensure the webapp service starts after the database
+      database-cart-item:  # Ensure the webapp service starts after the database
         condition: service_healthy
       configserver:
         condition: service_started
     networks:
       - backend
-  database-cart_item:
+  database-cart-item:
     image: postgres:latest
     environment:
-      POSTGRES_DB: cart_item-db  # Replace with your desired database name
+      POSTGRES_DB: cart-item-db  # Replace with your desired database name
       POSTGRES_USER: postgres  # Replace with your desired database user
       POSTGRES_PASSWORD: postgres  # Replace with your desired database password
     ports:

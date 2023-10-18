@@ -1,5 +1,6 @@
 package com.processing.orders.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,10 +11,11 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long productId;
-    private int quantity;
+    private int stockQuantity;
     private double price;
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Orders order;
 
 

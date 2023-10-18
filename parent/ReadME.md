@@ -1,7 +1,3 @@
-docker build -t orders:0.0.1-snapshot .
-docker build -t catalog:0.0.1-snapshot .
-
-
-mvn clean package dockerfile:build   
-
-docker-compose -f docker/docker-compose.yml up   
+Running this application will only require two commands:
+1. mvn clean package dockerfile:build
+2. docker-compose -f docker/docker-compose.yml up   

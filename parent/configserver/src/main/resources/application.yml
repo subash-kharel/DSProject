@@ -5,5 +5,5 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/subash-kharel/cloud-config.git
+          uri: https://github.com/subash-kharel/cloud-config
           search-paths: ecom-configs

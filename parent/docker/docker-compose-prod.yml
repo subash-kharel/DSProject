@@ -3,7 +3,8 @@ services:
   catalog:
     image: catalog:0.0.1-snapshot
     environment:
-      PROFILE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
+#      PROFILE: "prod"
       CONFIGSERVER_URI: "http://configserver:8888"
       CONFIGSERVER_PORT: "8888"
     ports:
@@ -35,7 +36,9 @@ services:
   order:
     image: order:0.0.1-snapshot
     environment:
-      PROFILE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
+
+#      PROFILE: "prod"
     ports:
       - "8081:8081"
     depends_on:
@@ -65,7 +68,9 @@ services:
   cart_item:
     image: cart_item:0.0.1-snapshot
     environment:
-      PROFILE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
+
+#      PROFILE: "prod"
       CONFIGSERVER_URI: "http://configserver:8888"
       CONFIGSERVER_PORT: "8888"
     ports:

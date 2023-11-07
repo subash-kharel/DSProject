@@ -58,6 +58,7 @@
 		<module>order</module>
 		<module>cart-item</module>
 		<module>configserver</module>
+		<module>eureka-server</module>
 	</modules>
 
 	<build>

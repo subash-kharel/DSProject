@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: eureka-server
+  config:
+    activate:
+      on-profile: default
+  cloud:
+    config:
+      uri: http://configserver:8888
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+---
+spring:
+  application:
+    name: eureka-server-instance-2
+  config:
+    activate:
+      on-profile: instance-2
+  cloud:
+    config:
+      uri: http://configserver:8888
+  loadbalancer:
+    ribbon:
+      enabled: false

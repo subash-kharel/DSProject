@@ -12,7 +12,7 @@ services:
       database-catalog:  # Ensure the webapp service starts after the database
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
     networks:
       - backend
 
@@ -42,7 +42,7 @@ services:
       database-order:  # Ensure the webapp service starts after the database
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
     networks:
       - backend
 
@@ -74,7 +74,7 @@ services:
       database-cart-item:  # Ensure the webapp service starts after the database
         condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
     networks:
       - backend
   database-cart-item:
@@ -101,12 +101,38 @@ services:
       SERVER_PORT: 8888
     networks:
       - backend
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://configserver:8888/actuator/health" ]
-#      interval: 10s
-#      timeout: 10s
-#      retries: 5
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://configserver:8888/actuator/health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
+  eureka-server:
+    image: eureka-server:0.0.1-snapshot
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    networks:
+      backend:
+        aliases:
+          - "eureka-server"
+    command: java -jar /app/eureka-server-0.0.1-snapshot.jar --spring.config.name=eureka-server
+  eureka-server-instance-2:
+    image: eureka-server:0.0.1-snapshot
+    ports:
+      - "8072:8072"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    networks:
+      backend:
+        aliases:
+          - "eureka-server-instance-2"
+    environment:
+      - SPRING_PROFILES_ACTIVE=instance-2
+    command: java -jar /app/eureka-server-0.0.1-snapshot.jar --spring.config.name=eureka-server-instance-2
 networks:
   backend:
     driver: bridge

@@ -7,3 +7,5 @@ spring:
         git:
           uri: https://github.com/subash-kharel/cloud-config
           search-paths: ecom-configs
+          default-label: master
+      enabled: true

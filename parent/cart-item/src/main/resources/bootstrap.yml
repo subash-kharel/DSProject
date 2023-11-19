@@ -10,3 +10,27 @@ spring:
   config:
     import:
       configserver:
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.cart: DEBUG
+management.endpoints.enabled-by-default: false
+management.endpoint.health:
+  enabled: true
+  show-details: always
+
+resilience4j.circuitbreaker:
+  instances:
+    orderService:
+      registerHealthIndicator: true
+      minimum-number-of-calls: 5
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 50
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+        - java.lang.Exception

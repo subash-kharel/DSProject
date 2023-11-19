@@ -4,10 +4,10 @@ FROM openjdk:17
 WORKDIR /app
 
 # Copy the JAR file from the target directory into the container
-COPY target/catalog-0.0.1-snapshot.jar /app/catalog-0.0.1-snapshot.jar
+COPY target/gateway-server-0.0.1-snapshot.jar /app/gateway-server-0.0.1-snapshot.jar
 
 # Expose the port the application runs on
-EXPOSE 8072
+EXPOSE 8075
 
 # Define the command to run your application
-CMD ["java", "-jar", "catalog-0.0.1-snapshot.jar"]
+CMD ["java", "-jar", "gateway-server-0.0.1-snapshot.jar"]

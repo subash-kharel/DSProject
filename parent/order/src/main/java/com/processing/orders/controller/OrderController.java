@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Orders createOrder(@RequestBody Orders order) {
+    public Orders createOrder(@RequestBody Orders order) throws Exception {
         return orderService.createOrder(order);
     }
 

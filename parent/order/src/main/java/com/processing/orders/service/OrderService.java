@@ -5,6 +5,7 @@ import com.processing.orders.client.CartServiceClient;
 import com.processing.orders.model.OrderItem;
 import com.processing.orders.model.Orders;
 import com.processing.orders.repository.OrderRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public Orders createOrder(Orders catalog) {
+    @CircuitBreaker(name = "orderService", fallbackMethod = "buildFallbackLicenseList")
+    public Orders createOrder(Orders catalog) throws Exception {
         List<OrderItemDTO> orderItemDTO = cartServiceClient.getAllItemsInCart();
         List<OrderItem> orderItemList = new ArrayList<>();
         orderItemDTO.forEach(item -> {
@@ -40,6 +42,14 @@ public class OrderService {
         });
         catalog.setOrderItems(orderItemList);
         return orderRepository.save(catalog);
+    }
+
+    private List<Orders> buildFallbackLicenseList(String organizationId, Throwable t){
+        List<Orders> fallbackList = new ArrayList<>();
+        Orders orders = new Orders();
+        orders.setName("Orders not found for organizationId: "+ organizationId);
+        fallbackList.add(orders);
+        return fallbackList;
     }
 
     //todo: create custom messages

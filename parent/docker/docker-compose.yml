@@ -133,6 +133,29 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=instance-2
     command: java -jar /app/eureka-server-0.0.1-snapshot.jar --spring.config.name=eureka-server-instance-2
+
+  gateway-server:
+    image: gateway-server:0.0.1-snapshot
+    ports:
+      - "8075:8075"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "8075"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      EUREKASERVER_URI: "http://eureka-server:8070/eureka/"
+      EUREKASERVER_PORT: "8070"
+      CONFIGSERVER_PORT: "8071"
+    depends_on:
+#      database:
+#        condition: service_healthy
+      configserver:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "gateway"
 networks:
   backend:
     driver: bridge

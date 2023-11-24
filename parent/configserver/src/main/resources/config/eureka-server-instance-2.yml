@@ -1,9 +1,9 @@
 spring:
   application:
     name: eureka-server-instance-2
-  boot:
-    admin:
-      context-path: /admin
+#  boot:
+#    admin:
+#      context-path: /admin
 server:
   port: 8072
 eureka:

@@ -1,9 +1,8 @@
 package com.cart.cartItem.model;
 
-
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
+
+import javax.persistence.*;
 
 @Entity
 @Data

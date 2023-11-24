@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   catalog:
     image: catalog:0.0.1-snapshot
@@ -142,14 +142,14 @@ services:
       PROFILE: "default"
       SERVER_PORT: "8075"
       CONFIGSERVER_URI: "http://configserver:8071"
-      EUREKASERVER_URI: "http://eureka-server:8070/eureka/"
-      EUREKASERVER_PORT: "8070"
-      CONFIGSERVER_PORT: "8071"
+      EUREKASERVER_URI: "http://eureka-server-instance-2:8072/eureka/"
+      EUREKASERVER_PORT: "8072"
+      CONFIGSERVER_PORT: "8888"
     depends_on:
 #      database:
 #        condition: service_healthy
       configserver:
-        condition: service_started
+        condition: service_healthy
       eureka-server:
         condition: service_started
     networks:

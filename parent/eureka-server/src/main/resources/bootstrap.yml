@@ -7,9 +7,9 @@ spring:
   cloud:
     config:
       uri: http://configserver:8888
-    loadbalancer:
-      ribbon:
-        enabled: false
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
 
 ---
 spring:
@@ -21,6 +21,6 @@ spring:
   cloud:
     config:
       uri: http://configserver:8888
-  loadbalancer:
-    ribbon:
-      enabled: false
+#  loadbalancer:
+#    ribbon:
+#      enabled: false

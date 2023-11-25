@@ -5,10 +5,11 @@ import com.processing.orders.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="v1/order")
+@RequestMapping(value="/v1/order")
 public class OrderController {
 
     @Autowired
@@ -20,6 +21,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @RolesAllowed({ "ADMIN", "USER" })
     public Orders createOrder(@RequestBody Orders order) throws Exception {
         return orderService.createOrder(order);
     }

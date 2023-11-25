@@ -1,6 +1,7 @@
 package com.processing.orders.service;
 
 import com.processing.orders.OrderItemDTO;
+import com.processing.orders.client.CartRestTemplateClient;
 import com.processing.orders.client.CartServiceClient;
 import com.processing.orders.model.OrderItem;
 import com.processing.orders.model.Orders;
@@ -20,6 +21,8 @@ public class OrderService {
 
     @Autowired
     private CartServiceClient cartServiceClient;
+    @Autowired
+    private CartRestTemplateClient cartRestTemplateClient;
 
     public List<Orders> getAllOrders() {
         return orderRepository.findAll();
@@ -29,9 +32,11 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    @CircuitBreaker(name = "orderService", fallbackMethod = "buildFallbackLicenseList")
+//    @CircuitBreaker(name = "orderService", fallbackMethod = "buildFallbackLicenseList")
+//    @CircuitBreaker(name = "orderService")
     public Orders createOrder(Orders catalog) throws Exception {
-        List<OrderItemDTO> orderItemDTO = cartServiceClient.getAllItemsInCart();
+//        List<OrderItemDTO> orderItemDTO = cartServiceClient.getAllItemsInCart();
+        List<OrderItemDTO> orderItemDTO = cartRestTemplateClient.getAllItemsInCart();
         List<OrderItem> orderItemList = new ArrayList<>();
         orderItemDTO.forEach(item -> {
             OrderItem orderItem = new OrderItem();
@@ -44,10 +49,10 @@ public class OrderService {
         return orderRepository.save(catalog);
     }
 
-    private List<Orders> buildFallbackLicenseList(String organizationId, Throwable t){
+    private List<Orders> buildFallbackLicenseList(Throwable t){
         List<Orders> fallbackList = new ArrayList<>();
         Orders orders = new Orders();
-        orders.setName("Orders not found for organizationId: "+ organizationId);
+        orders.setName("Orders not found");
         fallbackList.add(orders);
         return fallbackList;
     }

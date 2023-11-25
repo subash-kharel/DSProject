@@ -7,7 +7,7 @@ services:
       CONFIGSERVER_URI: "http://configserver:8888"
       CONFIGSERVER_PORT: "8888"
     ports:
-      - "8080:8080"
+      - "8086:8086"
     depends_on:
       database-catalog:  # Ensure the webapp service starts after the database
         condition: service_healthy
@@ -156,6 +156,27 @@ services:
       backend:
         aliases:
           - "gateway"
+  keycloak:
+    image: mihaibob/keycloak:18.0.2-legacy
+    restart: always
+    environment:
+      KEYCLOAK_VERSION: 6.0.1
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: h2
+    volumes:
+      - ./realm-export.json:/opt/jboss/keycloak/realm-export.json
+    command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"
+      - "-Dkeycloak.profile.feature.scripts=enabled"
+      - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+    ports:
+      - "8080:8080"
+    networks:
+      backend:
+        aliases:
+          - "keycloak"
 networks:
   backend:
     driver: bridge

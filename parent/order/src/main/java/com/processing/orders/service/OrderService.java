@@ -1,7 +1,7 @@
 package com.processing.orders.service;
 
 import com.processing.orders.OrderItemDTO;
-import com.processing.orders.client.CartRestTemplateClient;
+//import com.processing.orders.client.CartRestTemplateClient;
 import com.processing.orders.client.CartServiceClient;
 import com.processing.orders.model.OrderItem;
 import com.processing.orders.model.Orders;
@@ -22,7 +22,8 @@ public class OrderService {
     @Autowired
     private CartServiceClient cartServiceClient;
     @Autowired
-    private CartRestTemplateClient cartRestTemplateClient;
+//    private CartRestTemplateClient cartRestTemplateClient;
+    private CartServiceClient cartRestTemplateClient;
 
     public List<Orders> getAllOrders() {
         return orderRepository.findAll();

@@ -10,12 +10,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableFeignClients
-@EnableDiscoveryClient
-//@EnableHystrix
-@EnableEurekaClient
 @RefreshScope
-//@ComponentScan("com.processing.orders.config")
+@EnableDiscoveryClient
+@EnableFeignClients
+@EnableEurekaClient
+//@EnableBinding(Sink.class)
 public class OrdersApplication {
 
 	public static void main(String[] args) {

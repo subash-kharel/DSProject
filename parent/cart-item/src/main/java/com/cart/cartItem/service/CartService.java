@@ -1,6 +1,6 @@
 package com.cart.cartItem.service;
 
-import com.cart.cartItem.client.CatalogRestTemplateClient;
+//import com.cart.cartItem.client.CatalogRestTemplateClient;
 import com.cart.cartItem.client.CatalogServiceClient;
 import com.cart.cartItem.dto.CartItemDTO;
 import com.cart.cartItem.model.CartItem;
@@ -27,7 +27,8 @@ public class CartService {
     private CatalogServiceClient catalogServiceClient;
 
     @Autowired
-    private CatalogRestTemplateClient catalogRestTemplateClient;
+//    private CatalogRestTemplateClient catalogRestTemplateClient;
+    private CatalogServiceClient catalogRestTemplateClient;
 
     public List<CartItem> getAllItemsInCart() {
         return cartRepository.findAll();

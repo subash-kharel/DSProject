@@ -3,9 +3,11 @@ package com.processing.orders.service;
 import com.processing.orders.OrderItemDTO;
 //import com.processing.orders.client.CartRestTemplateClient;
 import com.processing.orders.client.CartServiceClient;
+import com.processing.orders.events.source.SimpleSourceBean;
 import com.processing.orders.model.OrderItem;
 import com.processing.orders.model.Orders;
 import com.processing.orders.repository.OrderRepository;
+import com.processing.orders.utils.ActionEnum;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class OrderService {
     @Autowired
 //    private CartRestTemplateClient cartRestTemplateClient;
     private CartServiceClient cartRestTemplateClient;
+
+    @Autowired
+    SimpleSourceBean simpleSourceBean;
 
     public List<Orders> getAllOrders() {
         return orderRepository.findAll();
@@ -47,7 +52,9 @@ public class OrderService {
             orderItemList.add(orderItem);
         });
         catalog.setOrderItems(orderItemList);
-        return orderRepository.save(catalog);
+        Orders newOrder = orderRepository.save(catalog);
+        simpleSourceBean.publishOrganizationChange(ActionEnum.CREATED, String.valueOf(newOrder.getId()));
+        return newOrder;
     }
 
     private List<Orders> buildFallbackLicenseList(Throwable t){

@@ -11,7 +11,7 @@ import org.springframework.cloud.stream.messaging.Source;
 //@EnableFeignClients
 @EnableDiscoveryClient
 @RefreshScope
-@EnableBinding(Source.class)
+//@EnableBinding(Sink.class)
 public class CatalogApplication {
 
 	public static void main(String[] args) {
